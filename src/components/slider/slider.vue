@@ -109,7 +109,7 @@
                 singlePosition: (this.value - this.min) / (this.max - this.min) * 100,
                 firstPosition: (this.value[0] - this.min) / (this.max - this.min) * 100,
                 secondPosition: (this.value[1] - this.min) / (this.max - this.min) * 100
-            }
+            };
         },
         computed: {
             classes () {
@@ -120,7 +120,7 @@
                         [`${prefixCls}-range`]: this.range,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             buttonClasses () {
                 return [
@@ -153,11 +153,11 @@
                     style = {
                         width: (this.value[1] - this.value[0]) / (this.max - this.min) * 100 + '%',
                         left: (this.value[0] - this.min) / (this.max - this.min) * 100 + '%'
-                    }
+                    };
                 } else {
                     style = {
                         width: (this.value - this.min) / (this.max - this.min) * 100 + '%'
-                    }
+                    };
                 }
 
                 return style;
@@ -184,6 +184,7 @@
                     }
                 });
                 this.updateValue(val);
+                this.$emit('on-input', this.value);
             }
         },
         methods: {
@@ -291,6 +292,7 @@
                     if (!this.dragging) {
                         if (this.value !== this.oldSingleValue) {
                             this.$emit('on-change', this.value);
+                            this.$dispatch('on-form-change', this.value);
                             this.oldSingleValue = this.value;
                         }
                     }
@@ -303,6 +305,7 @@
                 this.value = val;
                 this.setSinglePosition(val);
                 this.$emit('on-change', this.value);
+                this.$dispatch('on-form-change', this.value);
             },
             // for range use first
             onFirstButtonDown (event) {
@@ -345,6 +348,7 @@
                     if (!this.firstDragging) {
                         if (this.value[0] !== this.oldFirstValue) {
                             this.$emit('on-change', this.value);
+                            this.$dispatch('on-form-change', this.value);
                             this.oldFirstValue = this.value[0];
                         }
                     }
@@ -394,6 +398,7 @@
                     if (!this.secondDragging) {
                         if (this.value[1] !== this.oldSecondValue) {
                             this.$emit('on-change', this.value);
+                            this.$dispatch('on-form-change', this.value);
                             this.oldSecondValue = this.value[1];
                         }
                     }
@@ -418,5 +423,5 @@
                 this.updateValue(this.value);
             }
         }
-    }
+    };
 </script>

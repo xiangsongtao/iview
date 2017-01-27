@@ -16,7 +16,15 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        sortable: true,
+                        sortMethod: function (a, b, type) {
+                            if (type === 'asc') {
+                                return a < b ? 1 : -1;
+                            } else if (type === 'desc') {
+                                return a > b ? 1 : -1;
+                            }
+                        }
                     },
                     {
                         title: '地址',
@@ -28,7 +36,10 @@
                         width: 150,
                         align: 'center',
                         render (row, column, index) {
-                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+//                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+                            return `<Poptip width="250" confirm placement="left" title="您确认删除吗？" @on-ok="deleteProject(${index})">
+                <i-button size="small" type="error">删除</i-button>
+              </Poptip>`
                         }
                     }
                 ],

@@ -1,14 +1,14 @@
 <template>
-    <div style="width: 150px;margin:100px">
-        <Cascader :data="data" :value.sync="value1"></Cascader>
-    </div>
-
+    {{ text }}
+    <Cascader :data="data" @on-change="handleChange">
+        <a href="javascript:void(0)">选择</a>
+    </Cascader>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: [],
+                text: '未选择',
                 data: [{
                     value: 'beijing',
                     label: '北京',
@@ -56,6 +56,11 @@
                         }
                     ],
                 }]
+            }
+        },
+        methods: {
+            handleChange (value, selectedData) {
+                this.text = selectedData.map(o => o.label).join(', ');
             }
         }
     }

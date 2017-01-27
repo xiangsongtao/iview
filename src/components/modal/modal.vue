@@ -24,6 +24,7 @@
     import Icon from '../icon';
     import iButton from '../button/button.vue';
     import { getScrollBarSize } from '../../utils/assist';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-modal';
 
@@ -51,11 +52,15 @@
             },
             okText: {
                 type: String,
-                default: '确定'
+                default () {
+                    return t('i.modal.okText');
+                }
             },
             cancelText: {
                 type: String,
-                default: '取消'
+                default () {
+                    return t('i.modal.cancelText');
+                }
             },
             loading: {
                 type: Boolean,
@@ -79,7 +84,7 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -89,7 +94,7 @@
                         [`${prefixCls}-hidden`]: !this.wrapShow,
                         [`${this.className}`]: !!this.className
                     }
-                ]
+                ];
             },
             maskClasses () {
                 return `${prefixCls}-mask`;
@@ -104,7 +109,7 @@
                     width: `${this.width}px`
                 };
 
-                const customStyle = !!this.style ? this.style : {};
+                const customStyle = this.style ? this.style : {};
 
                 Object.assign(style, styleWidth, customStyle);
 
@@ -135,7 +140,7 @@
             EscClose (e) {
                 if (this.visible && this.closable) {
                     if (e.keyCode === 27) {
-                        this.close()
+                        this.close();
                     }
                 }
             },
@@ -192,11 +197,12 @@
             visible (val) {
                 if (val === false) {
                     this.buttonLoading = false;
-                    setTimeout(() => {
+                    this.timer = setTimeout(() => {
                         this.wrapShow = false;
                         this.removeScrollEffect();
                     }, 300);
                 } else {
+                    if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     this.addScrollEffect();
                 }
@@ -207,5 +213,5 @@
                 }
             }
         }
-    }
+    };
 </script>

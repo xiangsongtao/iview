@@ -1,7 +1,7 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="style">
         <colgroup>
-            <col v-for="column in columns" :width="setCellWidth(column, $index)">
+            <col v-for="column in columns" :width="setCellWidth(column, $index, false)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <tr
@@ -9,8 +9,9 @@
                 :class="rowClasses(row._index)"
                 @mouseenter.stop="handleMouseIn(row._index)"
                 @mouseleave.stop="handleMouseOut(row._index)"
-                @click.stop="highlightCurrentRow(row._index)">
-                <td v-for="column in columns" :class="alignCls(column)">
+                @click.stop="clickCurrentRow(row._index)"
+                @dblclick.stop="dblclickCurrentRow(row._index)">
+                <td v-for="column in columns" :class="alignCls(column, row)">
                     <Cell
                         :fixed="fixed"
                         :prefix-cls="prefixCls"
@@ -52,7 +53,7 @@
                         [`${this.prefixCls}-row-highlight`]: this.objData[_index] && this.objData[_index]._isHighlight,
                         [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover
                     }
-                ]
+                ];
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
@@ -66,9 +67,12 @@
             handleMouseOut (_index) {
                 this.$parent.handleMouseOut(_index);
             },
-            highlightCurrentRow (_index) {
-                this.$parent.highlightCurrentRow(_index);
+            clickCurrentRow (_index) {
+                this.$parent.clickCurrentRow(_index);
+            },
+            dblclickCurrentRow (_index) {
+                this.$parent.dblclickCurrentRow(_index);
             }
         }
-    }
+    };
 </script>

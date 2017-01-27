@@ -8,9 +8,12 @@
 
 ### A high quality  UI Components Library with Vue.js
 
+> iView works only with Vue 1.0 currently. We have been in developing. English document is coming soon. Please pay attention to the iView.
+
 ## Docs
 
 ### [中文文档](https://www.iviewui.com)
+### English (Coming soon)
 
 ## Overview
 
@@ -18,10 +21,12 @@
 
 ## Features
 
-- Using .vue file development mode
-- Based on npm + webpack + babel, support ES2015
 - High quality and rich functions
 - Friendly APIs,free and flexible
+- Great Documentation
+- It is quite beautiful
+- Using .vue file development mode
+- Based on npm + webpack + babel, using ES2015
 
 ## Programming 
 
@@ -76,4 +81,9 @@ Normal browsers and Internet Explorer 9+.
 - [ionicons](https://github.com/driftyco/ionicons)
 - [Ant Design](https://github.com/ant-design/ant-design)
 
-# We have been in developing, please pay attention to the iView.
+## Donation
+iView is an MIT licensed open source project and completely free to use, but if it is helpful to you, you can buy me a coffee :)
+
+<p align="center">
+    <img src="https://raw.githubusercontent.com/iview/iview/master/assets/pay.png">
+</p>

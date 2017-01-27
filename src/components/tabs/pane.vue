@@ -20,16 +20,17 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            closable: {
+                type: Boolean,
+                default: null
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 show: true
-            }
-        },
-        computed: {
-
+            };
         },
         methods: {
             updateNav () {
@@ -46,6 +47,9 @@
             disabled () {
                 this.updateNav();
             }
+        },
+        ready () {
+            this.updateNav();
         }
-    }
+    };
 </script>

@@ -9,7 +9,7 @@
                             <div :class="tabCls(item)" v-for="item in navList" @click="handleChange($index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 {{ item.label }}
-                                <Icon v-if="closable && type === 'card'" type="ios-close-empty" @click.stop="handleRemove($index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.stop="handleRemove($index)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                 navList: [],
                 barWidth: 0,
                 barOffset: 0
-            }
+            };
         },
         computed: {
             classes () {
@@ -69,7 +69,7 @@
                         [`${prefixCls}-mini`]: this.size === 'small' && this.type === 'line',
                         [`${prefixCls}-no-animation`]: !this.animated
                     }
-                ]
+                ];
             },
             contentClasses () {
                 return [
@@ -77,7 +77,7 @@
                     {
                         [`${prefixCls}-content-animated`]: this.animated
                     }
-                ]
+                ];
             },
             barClasses () {
                 return [
@@ -85,17 +85,17 @@
                     {
                         [`${prefixCls}-ink-bar-animated`]: this.animated
                     }
-                ]
+                ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav, index) => nav.key === this.activeKey);
+                const x = this.navList.findIndex((nav) => nav.key === this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
                 if (x > -1) {
                     style = {
                         transform: `translateX(${p}) translateZ(0px)`
-                    }
+                    };
                 }
                 return style;
             },
@@ -125,7 +125,8 @@
                         label: pane.label,
                         icon: pane.icon || '',
                         key: pane.key || index,
-                        disabled: pane.disabled
+                        disabled: pane.disabled,
+                        closable: pane.closable
                     });
                     if (!pane.key) pane.key = index;
                     if (index === 0) {
@@ -137,7 +138,7 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav, index) => nav.key === this.activeKey);
+                    const index = this.navList.findIndex((nav) => nav.key === this.activeKey);
                     const prevTabs = this.$els.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = parseFloat(getStyle(tab, 'width'));
@@ -166,13 +167,12 @@
                         [`${prefixCls}-tab-disabled`]: item.disabled,
                         [`${prefixCls}-tab-active`]: item.key === this.activeKey
                     }
-                ]
+                ];
             },
             handleChange (index) {
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.key;
-                this.updateStatus();
                 this.$emit('on-click', nav.key);
             },
             handleRemove (index) {
@@ -200,15 +200,24 @@
                 }
                 this.$emit('on-tab-remove', tab.key);
                 this.updateNav();
+            },
+            showClose (item) {
+                if (this.type === 'card') {
+                    if (item.closable !== null) {
+                        return item.closable;
+                    } else {
+                        return this.closable;
+                    }
+                } else {
+                    return false;
+                }
             }
-        },
-        compiled () {
-            this.updateNav();
         },
         watch: {
             activeKey () {
                 this.updateBar();
+                this.updateStatus();
             }
         }
-    }
+    };
 </script>
